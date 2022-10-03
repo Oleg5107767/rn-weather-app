@@ -1,29 +1,27 @@
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { StyleSheet, Text, View, TextInput, Button, Alert, Dimensions, TouchableOpacity } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCity } from '../redux/citySlice'
-import { Ionicons } from '@expo/vector-icons'
-import { Feather } from '@expo/vector-icons'
-import useWeatherService from '../service/WeatherService'
-import { ScreenList } from '../components/ui/ScreenList';
 
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
+import useWeatherService from '../service/WeatherService'
+import { ScreenList } from '../components/ui/ScreenList'
+import { FiveDaysWeather } from '../components/fiveDaysWeather/FiveDaysWeather'
+import { LinearGradient } from 'expo-linear-gradient'
+import { weatherOptions } from '../components/optionsConfig'
 const CityScreen = () => {
     const [text, onChangeText] = useState("")
 
     const { getCityWeather } = useWeatherService()
-    const {city }= useSelector(state => state.city)
+    const { city } = useSelector(state => state.city)
+    const { cityFiveDays } = useSelector(state => state.city)
     const dispatch = useDispatch();
 
 
     const onRequst = () => [
         getCityWeather(text)
     ]
-    console.log(city , 'city1')
-    
-    //const{payload} = city
-    //let x = {...payload}
-    //console.log(payload ,'x')
+    console.log(city, 'city')
+    // console.log(cityFiveDays, 'cityFiveDays')
+
     const handler = () => {
 
         if (text.trim().length === 0) {
@@ -31,14 +29,32 @@ const CityScreen = () => {
             onChangeText('')
             return
         }
-        // dispatch(setCity(text))
-        //onChangeText('')
         onRequst()
+        onChangeText('')
     }
-    const content = city.name ? <ScreenList/> : null
+    const content = city.name ?
+        <ScreenList
+            name={city.name}
+            temp={city.temp}
+            tempMax={city.tempMax}
+            tempMin={city.tempMin}
+            description={city.description}
+            icon={city.icon}
+            windSpeed={city.windSpeed}
+            humidity={city.humidity}
+            weather={city.weather}
+            pressure={city.pressure} /> : null
+
+    const fiveDay = city.name ? <FiveDaysWeather /> : null
+
     return (
-        <View>
-            <View style={styles.container} >
+        <LinearGradient
+            colors={ city.weather?  weatherOptions[city.weather].colorGradient : ['#3D7EAA', '#FFE47A']}
+            style={styles.container}
+        >
+            <ScrollView
+                scrollEventThrottle={1}
+            >
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
@@ -53,18 +69,22 @@ const CityScreen = () => {
                         <Text >Search</Text>
                     </TouchableOpacity>
                 </View>
-            </View >
-            {content}
-        </View>
+                {content}
+                <View style={{ marginTop: 20 }}>
+                    {fiveDay}
+                </View>
+            </ScrollView>
+        </LinearGradient>
+
     )
 }
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10,
-
+        flex: 1,
     },
     inputContainer: {
         marginHorizontal: 50,
+        marginVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -76,57 +96,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         padding: 8,
-        borderColor: 'black'
+        borderColor: 'white'
     },
     input: {
         flex: 1,
         height: 50,
-        color: 'black',
+        color: 'white',
         borderBottomWidth: 1,
         borderColor: 'black',
         paddingLeft: 35,
-    },
-    nameCityContainer: {
-        flexDirection: 'row',
-        backgroundColor: 'lightgray',
-        justifyContent: 'center',
-        alignItems: 'center',
-        //paddingVertical: 15,
-        //paddingHorizontal: 10,
-        //flexDirection: "row",
-        //justifyContent: "center",
-        //alignItems: "center"
-
-    },
-    nameCity: {
-        fontSize: 40,
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginRight: 10,
-        color: 'white'
-    },
-    tempAllContainer: {
-        backgroundColor: 'red',
-        flexDirection: 'column',
-        justifyContent: "center",
-        //alignItems: 'center',
-    },
-    tempContainer: {
-        backgroundColor: 'yellow',
-        flexDirection: 'row',
-    },
-    tempText: {
-        fontSize: 25,
-        padding: 10
-    },
-    tempMaxMinText: {
-        fontSize: 15,
-        // padding: 10
-    },
-    tempIconMax: {
-        bottom: 7
     }
-
 })
 
 export default CityScreen;

@@ -1,15 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-export  const citySlice = createSlice({
+export const citySlice = createSlice({
     name: 'city',
     initialState: {
-        city: ''
+        city: '',
+        cityFiveDays: ''
     },
     reducers: {
         addCity: (state, action) => {
             //console.log(action.payload.payload, 'action')
-            state.city = action.payload.payload || action.payload
+            state.city =  action.payload
+        },
+        addCityFiveDays: (state, action) => {
+            state.cityFiveDays =  action.payload
         },
     }
 })

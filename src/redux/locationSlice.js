@@ -4,11 +4,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const locationSlice = createSlice({
     name: 'user',
     initialState: {
-        user: ''
+        user: '',
+        userFiveDays: ''
     },
     reducers: {
         addUserInfo: (state, action) => {
-           // console.log(action)
             state.user = action.payload
         },
     }

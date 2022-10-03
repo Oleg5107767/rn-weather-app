@@ -4,7 +4,7 @@ import * as Location from 'expo-location'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHttp } from '../hooks/http.hook'
 import { addUserInfo } from '../redux/locationSlice'
-import { addCity } from '../redux/citySlice'
+import { addCity, addCityFiveDays } from '../redux/citySlice'
 
 const useWeatherService = () => {
     const { loading, request, error, clearError } = useHttp()
@@ -18,23 +18,24 @@ const useWeatherService = () => {
             const { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync()
             getUserWeather(latitude, longitude)
         } catch (error) {
-            Alert.alert('Не могу определить местоположение')
+            Alert.alert("Can't determine location")
         }
 
     }
     const getUserWeather = async (latitude, longitude) => {
-        const res = await request(`${apiBase}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
         //console.log(latitude, longitude)
+        const res = await request(`${apiBase}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
         return dispatch(addUserInfo(_tranformSaveObj(res)))
     }
 
     const getCityWeather = async (text) => {
         const res = await request(`${apiBase}find?q=${text}&type=like&APPID=${apiKey}&units=metric`)
+        getWeatherFiveDay(text)
         return dispatch(addCity(_transformSaveCityObj(res)))
 
     }
-    const getWeatherFiveDay = async (city) => {
-        const res = await request(`${apiBase}forecast?q=${city},us&appid=${apiKey}`)
+    const getWeatherFiveDay = async (text) => {
+        const res = await request(`${apiBase}forecast?q=${text}&appid=${apiKey}&cnt=5`)
         return res
     }
 
@@ -49,8 +50,7 @@ const useWeatherService = () => {
             tempMax: temp_max,
             tempMin: temp_min,
             description: description,
-            icon: icon,
-            //main: main,
+            weather: main,
             windSpeed: speed,
             humidity: humidity,
             pressure: pressure,
@@ -60,27 +60,22 @@ const useWeatherService = () => {
     }
     const _transformSaveCityObj = (obj) => {
         const { name, main, wind, weather } = obj.list[0]
-        const { temp, temp_max, temp_min } = main
+        const { temp, temp_max, temp_min, humidity, pressure } = main
         const { description, icon } = weather[0]
         const { speed } = wind
-
-
-        return (
-            dispatch(addCity(
-                {
-                    name: name,
-                    temp: temp,
-                    tempMax: temp_max,
-                    tempMin: temp_min,
-                    description: description,
-                    icon: icon,
-                    //main: weather[0].main,
-                    windSpeed: speed
-                }
-            )
-            )
-        )
+        return {
+            name: name,
+            temp: temp,
+            tempMax: temp_max,
+            tempMin: temp_min,
+            description: description,
+            weather: weather[0].main,
+            windSpeed: speed,
+            humidity: humidity,
+            pressure: pressure
+        }
     }
+
 
 
     return { getLocation, getCityWeather, getUserWeather, getWeatherFiveDay }

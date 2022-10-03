@@ -3,26 +3,74 @@ import { StyleSheet, Text, View, TextInput, Button, Alert, Dimensions, Touchable
 import { Ionicons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import {weatherOptions} from '../optionsConfig'
 
-export const ScreenList = ({ name, temp, tempMax, tempMin, windSpeed, description, main, humidity, pressure, sunrise, sunset }) => {
+//const weatherOptions = {
+//    Thunderstorm: {
+//        iconName: 'thunderstorm-outline'
+//    },
+//    Drizzle: {
+//        iconName: 'partly-sunny-outline'
+//    },
+//    Rain: {
+//        iconName: 'rainy-outline'
+//    },
+//    Snow: {
+//        iconName: 'snow-outline'
+//    },
+//    Clear: {
+//        iconName: 'sunny-outline'
+//    },
+//    Clouds: {
+//        iconName: 'cloud'
+//    }
+//    ///weaatherOptions[weather].iconName
+//}
+
+
+export const ScreenList = ({
+    name,
+    temp,
+    tempMax,
+    tempMin,
+    windSpeed,
+    description,
+    humidity,
+    pressure,
+    weather,
+    sunrise,
+    sunset }) => {
+
     return (
         <View>
-            <View style={styles.nameCityContainer}>
-                <Text style={styles.nameCity}>{name}</Text>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>{name}</Text>
                 <Ionicons
-                    name='rainy-outline'
+                    name={weather ? weatherOptions[weather].iconName : null}
                     size={60}
-                    color={'black'}
+                    color={'white'}
                 />
             </View>
-            <View style={styles.tempAllContainer}>
+            <View style={styles.itemContainer}>
                 <View style={{
                     alignItems: 'center',
                     flexDirection: 'row',
-                    justifyContent: 'center',
+                    justifyContent: 'space-around',
                 }}>
-                    <Text style={styles.tempText}>temp {temp}</Text>
-                    <Text style={styles.tempText}>{description}</Text>
+                    <View style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                    }}>
+                        <Text style={styles.subtitle}> {temp}</Text>
+                        <MaterialCommunityIcons
+                            name='temperature-celsius'
+                            size={30}
+                            color={'white'}
+                        />
+                    </View>
+
+                    <Text style={styles.subtitle}>{description}</Text>
                 </View>
 
                 <View style={{
@@ -31,75 +79,53 @@ export const ScreenList = ({ name, temp, tempMax, tempMin, windSpeed, descriptio
                     justifyContent: "space-around",
                     marginVertical: 10
                 }}>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>tempMax {tempMax}</Text>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>tempMax {tempMax}</Text>
                         <Ionicons
                             style={{ bottom: 6 }}
                             name='chevron-up'
                             size={20}
-                            color={'black'}
+                            color={'white'}
                         />
                     </View>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>tempMin {tempMin}</Text>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>tempMin {tempMin}</Text>
                         <Ionicons
                             style={{ bottom: 6 }}
                             name='chevron-down'
                             size={20}
-                            color={'black'}
+                            color={'white'}
                         />
                     </View>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>speed {windSpeed}</Text>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>speed {windSpeed}</Text>
                         <Feather
                             name='wind'
                             size={20}
-                            color={'black'}
+                            color={'white'}
                         />
                     </View>
                 </View>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: "space-around",
-                    marginVertical: 10
-                }}>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>sunrise {sunrise}</Text>
-                        <MaterialCommunityIcons
-                            name='weather-sunset-up'
-                            size={20}
-                            color={'black'}
-                        />
-                    </View>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>sunset {sunset}</Text>
-                        <MaterialCommunityIcons
-                            name='weather-sunset-down'
-                            size={20}
-                            color={'black'}
-                        />
-                    </View>
-                </View>
+
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: "space-around"
                 }}>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>humidity {humidity}</Text>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>humidity {humidity}</Text>
                         <Ionicons
                             name='water-outline'
                             size={20}
-                            color={'black'}
+                            color={'white'}
                         />
                     </View>
-                    <View style={styles.tempContainer}>
-                        <Text style={styles.tempMaxMinText}>pressure {pressure}</Text>
+                    <View style={styles.item}>
+                        <Text style={styles.text}>pressure {pressure}</Text>
                         <MaterialCommunityIcons
                             name='speedometer'
                             size={20}
-                            color={'black'}
+                            color={'white'}
                         />
                     </View>
                 </View>
@@ -110,71 +136,35 @@ export const ScreenList = ({ name, temp, tempMax, tempMin, windSpeed, descriptio
 const styles = StyleSheet.create({
     container: {
         marginVertical: 10,
-
     },
-    inputContainer: {
-        marginHorizontal: 50,
+    titleContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
-    },
-    button: {
-        alignItems: 'center',
-        right: 40,
-        position: 'absolute',
-        bottom: 10,
-        borderRadius: 5,
-        borderWidth: 1,
-        padding: 8,
-        borderColor: 'black'
-    },
-    input: {
-        flex: 1,
-        height: 50,
-        color: 'black',
-        borderBottomWidth: 1,
-        //backgroundColor: 'white',
-        borderColor: 'black',
-        paddingLeft: 35,
-    },
-    nameCityContainer: {
-        flexDirection: 'row',
-        //backgroundColor: 'lightgray',
         justifyContent: 'center',
         alignItems: 'center',
-        //paddingVertical: 15,
-        //paddingHorizontal: 10,
-        //flexDirection: "row",
-        //justifyContent: "center",
-        //alignItems: "center"
-
     },
-    nameCity: {
+    title: {
         fontSize: 40,
         textAlign: 'center',
         justifyContent: 'center',
         marginRight: 10,
         color: 'white'
     },
-    tempAllContainer: {
-        //backgroundColor: 'lightgray',
+    itemContainer: {
         flexDirection: 'column',
         justifyContent: "center",
-
     },
-    tempContainer: {
+    item: {
         flexDirection: 'row',
     },
-    tempText: {
+    subtitle: {
         fontSize: 25,
-        padding: 10
+        padding: 10,
+        color: 'white'
     },
-    tempMaxMinText: {
+    text: {
         fontSize: 15,
-        // padding: 10
+        color: 'white'
     },
-    tempIconMax: {
-        bottom: 7
-    }
 
 })
 
