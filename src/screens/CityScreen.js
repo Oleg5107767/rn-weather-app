@@ -20,7 +20,7 @@ const CityScreen = () => {
         getCityWeather(text)
     ]
     console.log(city, 'city')
-    // console.log(cityFiveDays, 'cityFiveDays')
+     //console.log(cityFiveDays, 'cityFiveDays')
 
     const handler = () => {
 
@@ -53,7 +53,8 @@ const CityScreen = () => {
             style={styles.container}
         >
             <ScrollView
-                scrollEventThrottle={1}
+                scrollEventThrottle={16}
+                keyboardShouldPersistTaps='always'
             >
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -61,12 +62,15 @@ const CityScreen = () => {
                         onChangeText={onChangeText}
                         value={text}
                         placeholder="enter city"
+                        placeholderTextColor="white"
+                        
                     />
                     <TouchableOpacity
                         onPress={handler}
                         style={styles.button}
+                       //keyboardShouldPersistTaps="always"
                     >
-                        <Text >Search</Text>
+                        <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>
                 {content}
@@ -103,7 +107,8 @@ const styles = StyleSheet.create({
         height: 50,
         color: 'white',
         borderBottomWidth: 1,
-        borderColor: 'black',
+        borderColor: 'white',
+        placeholderTextColor: "red",
         paddingLeft: 35,
     }
 })

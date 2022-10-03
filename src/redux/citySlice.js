@@ -5,16 +5,14 @@ export const citySlice = createSlice({
     name: 'city',
     initialState: {
         city: '',
-        cityFiveDays: ''
+        
     },
     reducers: {
         addCity: (state, action) => {
-            //console.log(action.payload.payload, 'action')
+
             state.city =  action.payload
-        },
-        addCityFiveDays: (state, action) => {
-            state.cityFiveDays =  action.payload
-        },
+        }
+
     }
 })
 export const { addCity } = citySlice.actions

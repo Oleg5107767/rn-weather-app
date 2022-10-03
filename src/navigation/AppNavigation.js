@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { Platform } from 'react-native'
 import MyLocationScreen from '../screens/MyLocationScreen'
 import CityScreen from '../screens/CityScreen'
 import { Ionicons } from '@expo/vector-icons'
@@ -39,22 +40,26 @@ export const AppNavigation = (props) => {
     const bottomConfig = {
         screenOptions: {
             headerShown: false,
+            tabBarStyle: {
+                howLabel: false,
+                backgroundColor: 'black',
+            }
+
         },
         MyLocationOptions: {
             tabBarLabel: 'My',
-            tabBarIcon: ({ focused }) => (<Ionicons name='ios-location-outline' size={25} color={focused ? 'black' : "#4d5156"} />)
+            tabBarIcon: ({ focused }) => (focused ? <Ionicons name='location' size={25} color={'white'} /> : <Ionicons name='location-outline' size={25} color={'white'} />)
         },
         CityOptions: {
             tabBarLabel: 'cities',
-            tabBarIcon: ({ focused }) => (<MaterialCommunityIcons name='city-variant-outline' size={25} color={focused ? 'black' : "#4d5156"} />)
+            tabBarIcon: ({ focused }) => (focused ? <MaterialCommunityIcons name='city-variant' size={25} color={'white'} /> : <MaterialCommunityIcons name='city-variant-outline' size={25} color={'white'} />)
         },
     }
     return (
         <Tab.Navigator
             initialRouteName='MyLocationScreen'
-            screenOptions={{ headerShown: false }}
-        // barStyle={AndroidConfig.barStyle}
-        //shifting={AndroidConfig.shifting}
+            screenOptions={bottomConfig.screenOptions}
+            tabBarOptions={{ showLabel: false }}
         >
             <Tab.Screen
                 name="MyLocation"

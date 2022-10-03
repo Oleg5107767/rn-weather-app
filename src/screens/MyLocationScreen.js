@@ -49,7 +49,7 @@ const MyLocationScreen = () => {
                     marginVertical: 10
                 }}>
                     <View style={{ flexDirection: 'row', }}>
-                        <Text style={styles.text}>sunrise {user.sunrise}</Text>
+                        <Text style={styles.text}>sunrise {new Date(user.sunrise).toLocaleTimeString("en-US")}</Text>
                         <MaterialCommunityIcons
                             name='weather-sunset-up'
                             size={20}
@@ -57,7 +57,7 @@ const MyLocationScreen = () => {
                         />
                     </View>
                     <View style={{ flexDirection: 'row', }}>
-                        <Text style={styles.text}>sunset {user.sunset}</Text>
+                        <Text style={styles.text}>sunset {new Date(user.sunset).toLocaleTimeString("en-US")}</Text>
                         <MaterialCommunityIcons
                             name='weather-sunset-down'
                             size={20}

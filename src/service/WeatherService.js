@@ -31,12 +31,12 @@ const useWeatherService = () => {
     const getCityWeather = async (text) => {
         const res = await request(`${apiBase}find?q=${text}&type=like&APPID=${apiKey}&units=metric`)
         getWeatherFiveDay(text)
-        return dispatch(addCity(_transformSaveCityObj(res)))
+        return  dispatch(addCity(_transformSaveCityObj(res)))//dispatch(addCity(_transformSaveCityObj(res)))
 
     }
     const getWeatherFiveDay = async (text) => {
         const res = await request(`${apiBase}forecast?q=${text}&appid=${apiKey}&cnt=5`)
-        return res
+        return dispatch(addCityFiveDays(_transormSaveFiveDaysWeather(res)))
     }
 
     const _tranformSaveObj = (obj) => {
@@ -61,7 +61,7 @@ const useWeatherService = () => {
     const _transformSaveCityObj = (obj) => {
         const { name, main, wind, weather } = obj.list[0]
         const { temp, temp_max, temp_min, humidity, pressure } = main
-        const { description, icon } = weather[0]
+        const { description } = weather[0]
         const { speed } = wind
         return {
             name: name,
@@ -75,7 +75,21 @@ const useWeatherService = () => {
             pressure: pressure
         }
     }
-
+    const _transormSaveFiveDaysWeather = (data) => {
+        const data_clean = data.list.map((i) => ({
+            temp: i.main.temp,
+            temp_min: i.main.temp_min,
+            temp_max: i.main.temp_max,
+            humidity: i.main.humidity,
+            pressure: i.main.pressure,
+            description: i.weather[0].description,
+            icon: i.weather[0].icon,
+            speed: i.wind.speed,
+            sunrise: data.city.sunrise,
+            sunset: data.city.sunset,
+        }))
+        return data_clean
+    }
 
 
     return { getLocation, getCityWeather, getUserWeather, getWeatherFiveDay }
