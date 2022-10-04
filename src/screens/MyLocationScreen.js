@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector} from 'react-redux'
 import useWeatherService from '../service/WeatherService'
 import { ScreenList } from '../components/ui/ScreenList'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -10,16 +10,13 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { weatherOptions } from '../components/optionsConfig'
 
 const MyLocationScreen = () => {
-    const navigation = useNavigation();
-    const { user } = useSelector(state => state.user);
-    const dispatch = useDispatch();
+
+    const { user , userFiveDays} = useSelector(state => state.userLocation) 
     const { getLocation } = useWeatherService()
 
     useEffect(() => {
         getLocation()
     }, [])
-
-    console.log(user.weather, 'user')
 
     return (
         <LinearGradient
@@ -65,7 +62,7 @@ const MyLocationScreen = () => {
                         />
                     </View>
                 </View>
-                <FiveDaysWeather />
+                <FiveDaysWeather data={userFiveDays}/>
             </ScrollView>
         </LinearGradient>
     )

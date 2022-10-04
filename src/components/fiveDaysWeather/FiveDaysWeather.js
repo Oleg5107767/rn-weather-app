@@ -3,7 +3,13 @@ import { Text, View, ScrollView, StyleSheet } from 'react-native'
 import { FiveDaysList } from '../ui/FiveDaysList'
 
 
-export const FiveDaysWeather = () => {
+export const FiveDaysWeather = ({ data }) => {
+    const item = data ? data.map(day => {
+        return (
+            <FiveDaysList temp={day.temp} dt={day.dt} description={day.description} weather={day.weather} />
+        )
+    }) : null
+
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -16,10 +22,7 @@ export const FiveDaysWeather = () => {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                 >
-                    <FiveDaysList />
-                    <FiveDaysList />
-                    <FiveDaysList />
-                    <FiveDaysList />
+                    {item}
                 </ScrollView>
             </View>
         </View>
@@ -28,11 +31,11 @@ export const FiveDaysWeather = () => {
 
 
 const styles = StyleSheet.create({
-    container:{
-        marginTop: 30 
+    container: {
+        marginTop: 30
     },
     titleContainer: {
-        paddingTop: 20, 
+        paddingTop: 20,
         alignItems: 'center'
     },
     title: {
@@ -41,8 +44,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: 'white'
     },
-    listContainer:{
+    listContainer: {
         height: 130,
-        marginTop: 20 
+        marginTop: 20
     }
 })

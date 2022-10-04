@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 export const locationSlice = createSlice({
-    name: 'user',
+    name: 'userLocation',
     initialState: {
         user: '',
         userFiveDays: ''
@@ -10,9 +10,12 @@ export const locationSlice = createSlice({
     reducers: {
         addUserInfo: (state, action) => {
             state.user = action.payload
-        },
+        },        
+        addUserFiveDays: (state, action) => {
+            state.userFiveDays =  action.payload
+        }
     }
 
 })
-export const { addUserInfo } = locationSlice.actions
+export const { addUserInfo,addUserFiveDays } = locationSlice.actions
 export default locationSlice.reducer

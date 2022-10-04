@@ -3,8 +3,8 @@ import { Alert } from 'react-native'
 import * as Location from 'expo-location'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHttp } from '../hooks/http.hook'
-import { addUserInfo } from '../redux/locationSlice'
-import { addCity, addCityFiveDays } from '../redux/citySlice'
+import { addUserInfo ,addUserFiveDays} from '../redux/locationSlice'
+import { addCity, addFiveDaysCity } from '../redux/citySlice'
 
 const useWeatherService = () => {
     const { loading, request, error, clearError } = useHttp()
@@ -25,20 +25,24 @@ const useWeatherService = () => {
     const getUserWeather = async (latitude, longitude) => {
         //console.log(latitude, longitude)
         const res = await request(`${apiBase}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
+        getUserFiveDay(latitude, longitude)
         return dispatch(addUserInfo(_tranformSaveObj(res)))
     }
 
     const getCityWeather = async (text) => {
         const res = await request(`${apiBase}find?q=${text}&type=like&APPID=${apiKey}&units=metric`)
         getWeatherFiveDay(text)
-        return  dispatch(addCity(_transformSaveCityObj(res)))//dispatch(addCity(_transformSaveCityObj(res)))
+        return dispatch(addCity(_transformSaveCityObj(res)))
 
     }
     const getWeatherFiveDay = async (text) => {
-        const res = await request(`${apiBase}forecast?q=${text}&appid=${apiKey}&cnt=5`)
-        return dispatch(addCityFiveDays(_transormSaveFiveDaysWeather(res)))
+        const res = await request(`${apiBase}forecast?q=${text}&appid=${apiKey}&units=metric`)
+        return dispatch(addFiveDaysCity(_transormSaveFiveDaysWeather(res)))//_transormSaveFiveDaysWeather(res)
     }
-
+    const getUserFiveDay = async (latitude, longitude) => {
+        const res = await request(`${apiBase}forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
+        return dispatch(addUserFiveDays(_transormSaveFiveDaysWeather(res)))//_transormSaveFiveDaysWeather(res)
+    }
     const _tranformSaveObj = (obj) => {
         const { description, icon, main } = obj.weather[0]
         const { speed } = obj.wind
@@ -76,14 +80,19 @@ const useWeatherService = () => {
         }
     }
     const _transormSaveFiveDaysWeather = (data) => {
-        const data_clean = data.list.map((i) => ({
+        const { list } = data
+        const filterData = []
+        for (let i = 0; i < list.length; i += 8) {
+            filterData.push(list[i])
+        }
+        const data_clean = filterData.map((i) => ({
+            dt: i.dt,
             temp: i.main.temp,
-            temp_min: i.main.temp_min,
-            temp_max: i.main.temp_max,
-            humidity: i.main.humidity,
-            pressure: i.main.pressure,
+           // humidity: i.main.humidity,
+           // pressure: i.main.pressure,
             description: i.weather[0].description,
-            icon: i.weather[0].icon,
+          //  icon: i.weather[0].icon,
+            weather:i.weather[0].main,
             speed: i.wind.speed,
             sunrise: data.city.sunrise,
             sunset: data.city.sunset,

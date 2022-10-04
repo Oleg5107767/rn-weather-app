@@ -48,11 +48,11 @@ export const AppNavigation = (props) => {
         },
         MyLocationOptions: {
             tabBarLabel: 'My',
-            tabBarIcon: ({ focused }) => (focused ? <Ionicons name='location' size={25} color={'white'} /> : <Ionicons name='location-outline' size={25} color={'white'} />)
+            tabBarIcon: ({ focused }) => (focused ? <Ionicons name='location' size={30} color={'white'} /> : <Ionicons name='location-outline' size={25} color={'white'} />)
         },
         CityOptions: {
             tabBarLabel: 'cities',
-            tabBarIcon: ({ focused }) => (focused ? <MaterialCommunityIcons name='city-variant' size={25} color={'white'} /> : <MaterialCommunityIcons name='city-variant-outline' size={25} color={'white'} />)
+            tabBarIcon: ({ focused }) => (focused ? <MaterialCommunityIcons name='city-variant' size={30} color={'white'} /> : <MaterialCommunityIcons name='city-variant-outline' size={25} color={'white'} />)
         },
     }
     return (

@@ -5,29 +5,6 @@ import { Feather } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import {weatherOptions} from '../optionsConfig'
 
-//const weatherOptions = {
-//    Thunderstorm: {
-//        iconName: 'thunderstorm-outline'
-//    },
-//    Drizzle: {
-//        iconName: 'partly-sunny-outline'
-//    },
-//    Rain: {
-//        iconName: 'rainy-outline'
-//    },
-//    Snow: {
-//        iconName: 'snow-outline'
-//    },
-//    Clear: {
-//        iconName: 'sunny-outline'
-//    },
-//    Clouds: {
-//        iconName: 'cloud'
-//    }
-//    ///weaatherOptions[weather].iconName
-//}
-
-
 export const ScreenList = ({
     name,
     temp,
@@ -62,7 +39,7 @@ export const ScreenList = ({
                         flexDirection: 'row',
                         justifyContent: 'center',
                     }}>
-                        <Text style={styles.subtitle}> {temp}</Text>
+                        <Text style={styles.subtitle}> {Math.round(temp)}</Text>
                         <MaterialCommunityIcons
                             name='temperature-celsius'
                             size={30}
@@ -80,7 +57,7 @@ export const ScreenList = ({
                     marginVertical: 10
                 }}>
                     <View style={styles.item}>
-                        <Text style={styles.text}>tempMax {tempMax}</Text>
+                        <Text style={styles.text}>tempMax {Math.round(tempMax)}</Text>
                         <Ionicons
                             style={{ bottom: 6 }}
                             name='chevron-up'
@@ -89,7 +66,7 @@ export const ScreenList = ({
                         />
                     </View>
                     <View style={styles.item}>
-                        <Text style={styles.text}>tempMin {tempMin}</Text>
+                        <Text style={styles.text}>tempMin {Math.round(tempMin)}</Text>
                         <Ionicons
                             style={{ bottom: 6 }}
                             name='chevron-down'
