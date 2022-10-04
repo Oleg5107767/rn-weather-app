@@ -6,7 +6,7 @@ import { FiveDaysList } from '../ui/FiveDaysList'
 export const FiveDaysWeather = ({ data }) => {
     const item = data ? data.map(day => {
         return (
-            <FiveDaysList temp={day.temp} dt={day.dt} description={day.description} weather={day.weather} />
+            <FiveDaysList key={day.dt} temp={day.temp} dt={day.dt} description={day.description} weather={day.weather} />
         )
     }) : null
 

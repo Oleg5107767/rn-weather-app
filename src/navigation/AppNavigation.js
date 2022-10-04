@@ -9,10 +9,10 @@ import CityScreen from '../screens/CityScreen'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+
 export const AppNavigation = (props) => {
     const Stack = createNativeStackNavigator()
     const Tab = (Platform.OS === 'android') ? createMaterialBottomTabNavigator() : createBottomTabNavigator()
-
 
     const MyLocationNavigator = () => {
         return (
@@ -37,29 +37,34 @@ export const AppNavigation = (props) => {
             </Stack.Navigator>
         )
     }
+
     const bottomConfig = {
         screenOptions: {
             headerShown: false,
+            tabBarShowLabel: false,
             tabBarStyle: {
-                howLabel: false,
                 backgroundColor: 'black',
             }
-
+        },
+        androidConfig: {
+            barStyle: { backgroundColor: 'black', showLabel: false }
         },
         MyLocationOptions: {
             tabBarLabel: 'My',
-            tabBarIcon: ({ focused }) => (focused ? <Ionicons name='location' size={30} color={'white'} /> : <Ionicons name='location-outline' size={25} color={'white'} />)
+            tabBarLabel: null,
+            tabBarIcon: ({ focused }) => (focused ? <Ionicons name='location' size={25} color={'white'} /> : <Ionicons name='location-outline' size={25} color={'white'} />)
         },
         CityOptions: {
             tabBarLabel: 'cities',
-            tabBarIcon: ({ focused }) => (focused ? <MaterialCommunityIcons name='city-variant' size={30} color={'white'} /> : <MaterialCommunityIcons name='city-variant-outline' size={25} color={'white'} />)
+            tabBarLabel: null,
+            tabBarIcon: ({ focused }) => (focused ? <MaterialCommunityIcons name='city-variant' size={25} color={'white'} /> : <MaterialCommunityIcons name='city-variant-outline' size={25} color={'white'} />)
         },
     }
     return (
         <Tab.Navigator
             initialRouteName='MyLocationScreen'
             screenOptions={bottomConfig.screenOptions}
-            tabBarOptions={{ showLabel: false }}
+            barStyle={Platform.OS === 'android' ? bottomConfig.androidConfig.barStyle : null}
         >
             <Tab.Screen
                 name="MyLocation"

@@ -1,4 +1,3 @@
-
 import LayOut from './src/components/layOut/LayOut'
 import { Provider } from 'react-redux'
 import store from './src/redux/store'

@@ -1,33 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 
 export const citySlice = createSlice({
     name: 'town',
     initialState: {
         city: '',
-        fiveDaysWeather: []
-        
+        fiveDaysWeatherCity: [],
+        cityLoading: false,
     },
     reducers: {
         addCity: (state, action) => {
-            state.city =  action.payload
+            state.city = action.payload
         },
         addFiveDaysCity: (state, action) => {
-            state.fiveDaysWeather =  action.payload
-        }
-
+            state.fiveDaysWeatherCity = action.payload
+        },
+        indicatorLoadCity: (state, action) => {
+            state.cityLoading = action.payload
+        },
     }
 })
-export const { addCity , addFiveDaysCity} = citySlice.actions
+export const { addCity, addFiveDaysCity, indicatorLoadCity } = citySlice.actions
 export default citySlice.reducer
-
-
-
-
-
-
-//export const {actions, reducer} = citySlice;
-//export default reducer;
-//export const {
-//    addCity
-//} = actions;

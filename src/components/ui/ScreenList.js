@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, Button, Alert, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { Feather } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import {weatherOptions} from '../optionsConfig'
+import { weatherOptions } from '../optionsConfig'
 
 export const ScreenList = ({
     name,
@@ -46,10 +46,8 @@ export const ScreenList = ({
                             color={'white'}
                         />
                     </View>
-
                     <Text style={styles.subtitle}>{description}</Text>
                 </View>
-
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -83,7 +81,6 @@ export const ScreenList = ({
                         />
                     </View>
                 </View>
-
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -141,8 +138,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 15,
         color: 'white'
-    },
-
+    }
 })
 
 

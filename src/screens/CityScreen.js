@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
-import { StyleSheet, Dimensions, View, TextInput,Alert, ScrollView} from 'react-native'
-import { useSelector} from 'react-redux'
+import { StyleSheet, Dimensions, View, TextInput, Alert, ScrollView } from 'react-native'
+import { useSelector } from 'react-redux'
 import useWeatherService from '../service/WeatherService'
 import { ScreenList } from '../components/ui/ScreenList'
 import { FiveDaysWeather } from '../components/fiveDaysWeather/FiveDaysWeather'
 import { LinearGradient } from 'expo-linear-gradient'
 import { weatherOptions } from '../components/optionsConfig'
+import { Preloader } from '../components/ui/Preloader'
+
 const CityScreen = () => {
     const [text, onChangeText] = useState("")
-
     const { getCityWeather } = useWeatherService()
-    const { city, fiveDaysWeather } = useSelector(state => state.town)
+    const { city, fiveDaysWeatherCity, cityLoading } = useSelector(state => state.town)
 
     const onRequst = () => [
         getCityWeather(text)
     ]
 
     const handler = () => {
-
         if (text.trim().length === 0) {
             Alert.alert('Введите название города')
             onChangeText('')
@@ -26,21 +26,28 @@ const CityScreen = () => {
         onRequst()
         onChangeText('')
     }
-    const content = city.name ?
-        <ScreenList
-            name={city.name}
-            temp={city.temp}
-            tempMax={city.tempMax}
-            tempMin={city.tempMin}
-            description={city.description}
-            icon={city.icon}
-            windSpeed={city.windSpeed}
-            humidity={city.humidity}
-            weather={city.weather}
-            pressure={city.pressure} /> : null
 
-    const fiveDay = city.name ?
-        <FiveDaysWeather data={fiveDaysWeather} /> : null
+    const items = city.name ?
+        <View>
+            <ScreenList
+                name={city.name}
+                temp={city.temp}
+                tempMax={city.tempMax}
+                tempMin={city.tempMin}
+                description={city.description}
+                icon={city.icon}
+                windSpeed={city.windSpeed}
+                humidity={city.humidity}
+                weather={city.weather}
+                pressure={city.pressure}
+            />
+            <View style={{ marginTop: 20 }}>
+                <FiveDaysWeather data={fiveDaysWeatherCity} />
+            </View >
+        </View>
+        : null
+
+    const content = !cityLoading ? items : <Preloader />
 
     return (
         <LinearGradient
@@ -58,20 +65,17 @@ const CityScreen = () => {
                         value={text}
                         placeholder="enter city"
                         placeholderTextColor="white"
-                        onSubmitEditing={() =>{
+                        onSubmitEditing={() => {
                             handler()
                         }}
                     />
                 </View>
                 {content}
-                <View style={{ marginTop: 20 }}>
-                    {fiveDay}
-                </View>
             </ScrollView>
         </LinearGradient>
-
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -99,8 +103,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: 'white',
         placeholderTextColor: "red",
-        paddingLeft: Dimensions.get('window').width > 400 ? 150 : 100,
+        paddingLeft: Dimensions.get('window').width > 400 ? 130 : 100,
     }
 })
 
-export default CityScreen;
+export default CityScreen

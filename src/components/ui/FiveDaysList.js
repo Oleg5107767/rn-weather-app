@@ -1,22 +1,18 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { weatherOptions } from '../optionsConfig';
+import { weatherOptions } from '../optionsConfig'
 import { LinearGradient } from 'expo-linear-gradient'
 
+
 export const FiveDaysList = ({ dt, description, temp, weather }) => {
-
-
-    // 1498555006770
-
     return (
-
         <LinearGradient
             colors={weather ? weatherOptions[weather].colorGradient : ['#3D7EAA', '#FFE47A']}
             color={['#3D7EAA', '#FFE47A']}
             style={styles.container}
         >
-            <Text style={styles.titleText}>{new Date(dt).toLocaleTimeString("en-US")}</Text>
+            <Text style={styles.titleText}>{dt.slice(0, 10)}</Text>
             <View style={styles.imgConatiner}>
                 <Ionicons
                     name={weather ? weatherOptions[weather].iconName : null}
@@ -36,7 +32,6 @@ export const FiveDaysList = ({ dt, description, temp, weather }) => {
                 <Text style={styles.text} >{description}</Text>
             </View>
         </LinearGradient>
-
     )
 }
 
